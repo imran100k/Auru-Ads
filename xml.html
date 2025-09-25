@@ -4,46 +4,20 @@
   <meta charset="UTF-8">
   <title>Telegram Mini App with AuruAds</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- AuruAds Integration (Replace with your correct app_uid from dashboard) -->
+  <!-- Replace YOUR_APP_UID with approved app_uid -->
   <script src="https://auruads.com/cdn/ads.js?app_uid=YOUR_APP_UID" async></script>
-
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    #ad-container {
-      width: 300px;
-      height: 250px;
-      margin: 20px auto;
-      border: 1px dashed #999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #status {
-      margin-top: 15px;
-      font-weight: bold;
-    }
+    body { font-family: Arial; text-align:center; padding:20px; background:#f5f5f5; }
+    #ad-container { width:300px; height:250px; margin:20px auto; border:1px dashed #999; display:flex; align-items:center; justify-content:center; background:#fff; }
+    button { padding:10px 20px; font-size:16px; cursor:pointer; }
+    #status { margin-top:15px; font-weight:bold; }
   </style>
 </head>
 <body>
   <h2>🚀 Telegram Mini App</h2>
   <p>Watch ad to earn rewards:</p>
 
-  <div id="ad-container">
-    Ad will load here
-  </div>
-
+  <div id="ad-container">Ad will load here</div>
   <button id="watchAd">🎬 Watch Ad & Get Reward</button>
   <p id="status"></p>
 
@@ -54,13 +28,21 @@
       if (window.showAuruAd) {
         window.showAuruAd()
           .then(() => {
-            // ✅ Reward logic
-            statusEl.textContent = "✅ You earned 10 coins!";
-            // TODO: Call your backend API to update user's coins
+            statusEl.textContent = "✅ You watched the ad!";
+            // Backend API call to add coins
+            fetch('https://YOUR_BACKEND_URL/reward', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                  user_id: Telegram.WebApp.initDataUnsafe.user.id, 
+                  coins: 10 
+              })
+            })
+            .then(res => res.json())
+            .then(data => { statusEl.textContent += " + 10 coins added"; })
+            .catch(err => { console.error(err); });
           })
-          .catch(err => {
-            statusEl.textContent = "❌ Ad failed: " + (err.message || "Unknown error");
-          });
+          .catch(err => { statusEl.textContent = "❌ Ad failed: " + (err.message || "Unknown"); });
       } else {
         statusEl.textContent = "⚠️ AuruAds script not loaded yet.";
       }
