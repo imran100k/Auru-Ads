@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Telegram Mini App with AuruAds</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- AuruAds integration (উদাহরণস্বরূপ) -->
+  <script async src="https://auruads.com/ads.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    #ad-container {
+      margin-top: 20px;
+      min-height: 250px;
+      border: 1px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h2>🚀 My Telegram Mini App</h2>
+  <p>Welcome! নিচে বিজ্ঞাপন লোড হবে:</p>
+
+  <!-- Ad placement -->
+  <div id="ad-container">
+    <!-- AuruAds ad will be injected here -->
+    <script>
+      // Example: showing ad slot
+      (function(){
+        if (window.auruads) {
+          window.auruads.display('ad-container');
+        }
+      })();
+    </script>
+  </div>
+</body>
+</html>
