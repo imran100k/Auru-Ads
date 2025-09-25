@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Telegram Mini App</title>
+  <title>Telegram Mini App with AuruAds</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- AuruAds Integration -->
-  <script src="https://auruads.com/cdn/ads.js?app_uid=2537" async></script>
+  <!-- AuruAds Integration (Replace with your correct app_uid from dashboard) -->
+  <script src="https://auruads.com/cdn/ads.js?app_uid=YOUR_APP_UID" async></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    #ad-container {
+      width: 300px;
+      height: 250px;
+      margin: 20px auto;
+      border: 1px dashed #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-<body style="font-family:sans-serif;text-align:center;padding:20px;">
+<body>
   <h2>🚀 Telegram Mini App</h2>
-  <p>নিচের বাটনে চাপ দিলে বিজ্ঞাপন লোড হবে:</p>
+  <p>Watch ad to earn rewards:</p>
+
+  <div id="ad-container">
+    Ad will load here
+  </div>
 
   <button id="watchAd">🎬 Watch Ad & Get Reward</button>
   <p id="status"></p>
@@ -19,15 +51,15 @@
     const statusEl = document.getElementById("status");
 
     document.getElementById("watchAd").addEventListener("click", () => {
-      if (window.showAuruads) {
-        window.showAuruads()
+      if (window.showAuruAd) {
+        window.showAuruAd()
           .then(() => {
-            // ✅ Ad দেখা শেষ → reward দিন
+            // ✅ Reward logic
             statusEl.textContent = "✅ You earned 10 coins!";
-            // এখানে আপনার reward logic দিন (API call করে database update ইত্যাদি)
+            // TODO: Call your backend API to update user's coins
           })
           .catch(err => {
-            statusEl.textContent = "❌ Ad failed: " + err.message;
+            statusEl.textContent = "❌ Ad failed: " + (err.message || "Unknown error");
           });
       } else {
         statusEl.textContent = "⚠️ AuruAds script not loaded yet.";
