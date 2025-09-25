@@ -2,46 +2,37 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Telegram Mini App with AuruAds</title>
+  <title>My Telegram Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- AuruAds integration (উদাহরণস্বরূপ) -->
-  <script async src="https://auruads.com/ads.js"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-    }
-    #ad-container {
-      margin-top: 20px;
-      min-height: 250px;
-      border: 1px dashed #ccc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-    }
-  </style>
+  <!-- AuruAds Integration -->
+  <script src="https://auruads.com/cdn/ads.js?app_uid=2537" async></script>
 </head>
-<body>
-  <h2>🚀 My Telegram Mini App</h2>
-  <p>Welcome! নিচে বিজ্ঞাপন লোড হবে:</p>
+<body style="font-family:sans-serif;text-align:center;padding:20px;">
+  <h2>🚀 Telegram Mini App</h2>
+  <p>নিচের বাটনে চাপ দিলে বিজ্ঞাপন লোড হবে:</p>
 
-  <!-- Ad placement -->
-  <div id="ad-container">
-    <!-- AuruAds ad will be injected here -->
-    <script>
-      // Example: showing ad slot
-      (function(){
-        if (window.auruads) {
-          window.auruads.display('ad-container');
-        }
-      })();
-    </script>
-  </div>
+  <button id="watchAd">🎬 Watch Ad & Get Reward</button>
+  <p id="status"></p>
+
+  <script>
+    const statusEl = document.getElementById("status");
+
+    document.getElementById("watchAd").addEventListener("click", () => {
+      if (window.showAuruads) {
+        window.showAuruads()
+          .then(() => {
+            // ✅ Ad দেখা শেষ → reward দিন
+            statusEl.textContent = "✅ You earned 10 coins!";
+            // এখানে আপনার reward logic দিন (API call করে database update ইত্যাদি)
+          })
+          .catch(err => {
+            statusEl.textContent = "❌ Ad failed: " + err.message;
+          });
+      } else {
+        statusEl.textContent = "⚠️ AuruAds script not loaded yet.";
+      }
+    });
+  </script>
 </body>
 </html>
